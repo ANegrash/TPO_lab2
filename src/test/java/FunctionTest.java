@@ -172,8 +172,29 @@ class FunctionTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/CsvFiles/Inputs/SystemIn.csv")
+    void testWithSecDeeper(double value, double expected) {
+        Function function = new Function(new Sec(new Cos(sinMock)), lnMock, logMock, tanMock, cosMock, cotMock, sinMock, cscMock);
+        Assertions.assertEquals(expected, function.SystemSolve(value, functionEps), eps);
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/CsvFiles/Inputs/SystemIn.csv")
     void testWithLn(double value, double expected) {
-        Function function = new Function(secMock, new Ln(), new Log(), tanMock, cosMock, cotMock, sinMock, cscMock);
+        Function function = new Function(secMock, new Ln(), logMock, tanMock, cosMock, cotMock, sinMock, cscMock);
+        Assertions.assertEquals(expected, function.SystemSolve(value, functionEps), eps * 20);
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/CsvFiles/Inputs/SystemIn.csv")
+    void testWithLog(double value, double expected) {
+        Function function = new Function(secMock, lnMock, new Log(), tanMock, cosMock, cotMock, sinMock, cscMock);
+        Assertions.assertEquals(expected, function.SystemSolve(value, functionEps), eps * 20);
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/CsvFiles/Inputs/SystemIn.csv")
+    void testWithLogDeeper(double value, double expected) {
+        Function function = new Function(secMock, lnMock, new Log(new Ln()), tanMock, cosMock, cotMock, sinMock, cscMock);
         Assertions.assertEquals(expected, function.SystemSolve(value, functionEps), eps * 20);
     }
 
@@ -186,6 +207,20 @@ class FunctionTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/CsvFiles/Inputs/SystemIn.csv")
+    void testWithTanDeeper(double value, double expected) {
+        Function function = new Function(secMock, lnMock, logMock, new Tan(new Sin(), new Cos(sinMock)), cosMock, cotMock, sinMock, cscMock);
+        Assertions.assertEquals(expected, function.SystemSolve(value, functionEps), eps * 5);
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/CsvFiles/Inputs/SystemIn.csv")
+    void testWithTanDeeperAndCosDeeper(double value, double expected) {
+        Function function = new Function(secMock, lnMock, logMock, new Tan(new Sin(), new Cos(new Sin())), cosMock, cotMock, sinMock, cscMock);
+        Assertions.assertEquals(expected, function.SystemSolve(value, functionEps), eps * 6);
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/CsvFiles/Inputs/SystemIn.csv")
     void testWithCos(double value, double expected) {
         Function function = new Function(secMock, lnMock, logMock, tanMock, new Cos(sinMock), cotMock, sinMock, cscMock);
         Assertions.assertEquals(expected, function.SystemSolve(value, functionEps), eps);
@@ -193,9 +228,30 @@ class FunctionTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/CsvFiles/Inputs/SystemIn.csv")
+    void testWithCosDeeper(double value, double expected) {
+        Function function = new Function(secMock, lnMock, logMock, tanMock, new Cos(new Sin()), cotMock, sinMock, cscMock);
+        Assertions.assertEquals(expected, function.SystemSolve(value, functionEps), eps * 2);
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/CsvFiles/Inputs/SystemIn.csv")
     void testWithCot(double value, double expected) {
         Function function = new Function(secMock, lnMock, logMock, tanMock, cosMock, new Cot(sinMock, cosMock), sinMock, cscMock);
         Assertions.assertEquals(expected, function.SystemSolve(value, functionEps), eps);
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/CsvFiles/Inputs/SystemIn.csv")
+    void testWithCotDeeper(double value, double expected) {
+        Function function = new Function(secMock, lnMock, logMock, tanMock, cosMock, new Cot(new Sin(), new Cos(sinMock)), sinMock, cscMock);
+        Assertions.assertEquals(expected, function.SystemSolve(value, functionEps), eps * 11);
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/CsvFiles/Inputs/SystemIn.csv")
+    void testWithCotDeeperAndCosDeeper(double value, double expected) {
+        Function function = new Function(secMock, lnMock, logMock, tanMock, cosMock, new Cot(new Sin(), new Cos(new Sin())), sinMock, cscMock);
+        Assertions.assertEquals(expected, function.SystemSolve(value, functionEps), eps * 15);
     }
 
     @ParameterizedTest
@@ -209,6 +265,13 @@ class FunctionTest {
     @CsvFileSource(resources = "/CsvFiles/Inputs/SystemIn.csv")
     void testWithCsc(double value, double expected) {
         Function function = new Function(secMock, lnMock, logMock, tanMock, cosMock, cotMock, sinMock, new Csc(sinMock));
+        Assertions.assertEquals(expected, function.SystemSolve(value, functionEps), eps);
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/CsvFiles/Inputs/SystemIn.csv")
+    void testWithCscDeeper(double value, double expected) {
+        Function function = new Function(secMock, lnMock, logMock, tanMock, cosMock, cotMock, sinMock, new Csc(new Sin()));
         Assertions.assertEquals(expected, function.SystemSolve(value, functionEps), eps);
     }
 
